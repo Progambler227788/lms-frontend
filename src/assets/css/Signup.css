@@ -1,0 +1,172 @@
+.signup-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.signup-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.signup-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.signup-header h2 {
+  font-size: 2rem;
+  color: #2b2d42;
+  margin-bottom: 0.5rem;
+}
+
+.signup-header p {
+  color: #6c757d;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #2b2d42;
+}
+
+.form-group input {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4361ee;
+}
+
+.form-group input.error {
+  border-color: #F44336;
+}
+
+.error-message {
+  color: #F44336;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.password-hint {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.form-check label {
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.form-check a {
+  color: #4361ee;
+  text-decoration: none;
+}
+
+.form-check a:hover {
+  text-decoration: underline;
+}
+
+.signup-button {
+  background-color: #4361ee;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup-button:hover {
+  background-color: #3a56d4;
+}
+
+.signup-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #6c757d;
+}
+
+.login-link {
+  color: #4361ee;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.signup-image {
+  flex: 1;
+  display: none;
+  background-color: #e9ecef;
+  position: relative;
+  overflow: hidden;
+}
+
+.illustration {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive styles */
+@media (min-width: 992px) {
+  .signup-image {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .signup-container {
+    padding: 1.5rem;
+  }
+}
