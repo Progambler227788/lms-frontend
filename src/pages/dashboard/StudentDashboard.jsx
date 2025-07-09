@@ -60,7 +60,7 @@ export default function StudentDashboard() {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const all = await fetchAllCourses(0, 1000, ''); // get all without filters
+        const all = await fetchAllCourses(0, 10, ''); // get all without filters
         const uniqueCategories = [...new Set(all.content.map((c) => c.category))];
         setAllCategories(uniqueCategories);
       } catch (err) {
