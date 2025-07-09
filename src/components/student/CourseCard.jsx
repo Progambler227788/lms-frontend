@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getCourseImage } from '../../utils/courseImages';
+
 // Capitalize and format category string like "cyber_security" → "Cyber Security"
 const formatCategory = (text) => {
   return text
@@ -7,6 +9,7 @@ const formatCategory = (text) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
+
 
 // Generate random tailwind background & text color classes
 const getRandomColorClass = () => {
@@ -41,7 +44,7 @@ export default function CourseCard({ course, onEnroll }) {
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden w-full">
       <img
-        src={image}
+        src={image  || getCourseImage(category)}
         alt={title}
         className="w-full h-48 object-cover"
       />
