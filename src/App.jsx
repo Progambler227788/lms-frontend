@@ -5,7 +5,7 @@ import Signup from './pages/auth/Signup';
 import StudentDashboard from './pages/dashboard/StudentDashboard';
 import InstructorDashboard from './pages/dashboard/InstructorDashboard';
 import ProtectedRoute from './components/ui/ProtectedRoute';
-import Home from './pages/Home';
+import Home from './pages/landingPage/Home';
 import { AuthProvider } from './context/AuthContext';
 
 export default function App() {
