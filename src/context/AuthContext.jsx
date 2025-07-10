@@ -10,7 +10,16 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get("/api/auth/me", { withCredentials: true });
+        const res = await api.get("/api/auth/me", {
+          withCredentials: true,
+          validateStatus: (status) => status < 500 // Don't treat 401 as error
+        });
+
+        if (res.status === 401) { // Explicitly handle unauthorized
+          setUser(null);
+          return;
+        }
+
         console.log(res.data)
         setUser(res.data);
       } catch {

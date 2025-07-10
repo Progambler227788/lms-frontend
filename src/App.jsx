@@ -7,6 +7,7 @@ import InstructorDashboard from './pages/dashboard/InstructorDashboard';
 import ProtectedRoute from './components/ui/ProtectedRoute';
 import Home from './pages/landingPage/Home';
 import { AuthProvider } from './context/AuthContext';
+import EnrollmentPage from './pages/student/EnrollmentPage';
 
 export default function App() {
   return (
@@ -16,6 +17,15 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          <Route
+            path="/enrollments"
+            element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <EnrollmentPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Protected routes */}
           <Route

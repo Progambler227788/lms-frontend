@@ -7,7 +7,7 @@ export default function Navbar({ onLogout }) {
 
   const navItems = [
     { name: 'Dashboard', path: '/student-dashboard' },
-    { name: 'Courses', path: '/student-dashboard/courses' },
+    { name: 'Enrollments', path: '/enrollments' },
     { name: 'Assignments', path: '/student-dashboard/assignments' },
     { name: 'Profile', path: '/student-dashboard/profile' },
   ];
