@@ -30,3 +30,19 @@ export const fetchCoursesByCategory = async (category, page = 0, size = 10) => {
     throw error;
   }
 };
+
+
+export const fetchCourseById = async (courseId) => {
+
+  try {
+
+  const response = await api.get(`/api/student/courses/${courseId}`,   {withCredentials: true  });
+  return response.data;
+  }
+
+  catch (error) {
+    console.error("Error fetching courses :", error);
+    throw error;
+  }
+ 
+};

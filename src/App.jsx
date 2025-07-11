@@ -7,7 +7,8 @@ import InstructorDashboard from './pages/dashboard/InstructorDashboard';
 import ProtectedRoute from './components/ui/ProtectedRoute';
 import Home from './pages/landingPage/Home';
 import { AuthProvider } from './context/AuthContext';
-import EnrollmentPage from './pages/student/EnrollmentPage';
+import CoursesEnrolled from './pages/student/CoursesEnrolled';
+import CourseEnrollmentPage from './pages/student/CourseEnrollmentPage';
 
 export default function App() {
   return (
@@ -19,10 +20,21 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
 
           <Route
+            path="/course/:courseId"
+            element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <CourseEnrollmentPage />
+              </ProtectedRoute>
+            }
+          />
+
+
+
+          <Route
             path="/enrollments"
             element={
               <ProtectedRoute allowedRoles={['STUDENT']}>
-                <EnrollmentPage />
+                <CoursesEnrolled />
               </ProtectedRoute>
             }
           />

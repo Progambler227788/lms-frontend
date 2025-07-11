@@ -78,8 +78,10 @@ export default function StudentDashboard() {
   };
 
   const handleLogout = () => logoutUser(setUser, navigate);
+  
+  // Update the onEnroll handler in your CourseCard component
   const handleEnroll = (courseId) => {
-    alert(`Enrolled in course ${courseId}`);
+    navigate(`/course/${courseId}`);
   };
 
   return (
