@@ -4,10 +4,10 @@ import { useAuth } from "../../context/AuthContext";
 import { logoutUser } from "../../utils/logout";
 import { fetchAllCourses } from "../../services/courseService";
 import { fetchCoursesByCategory } from "../../services/courseService";
-import Navbar from "../../components/student/Navbar";
-import HeroSection from "../../components/student/HeroSection";
-import CourseFilter from "../../components/student/CourseFilter";
-import CourseCard from "../../components/student/CourseCard";
+import Navbar from "../../components/student/dashboard/Navbar";
+import HeroSection from "../../components/student/dashboard/HeroSection";
+import CourseFilter from "../../components/student/dashboard/CourseFilter";
+import CourseCard from "../../components/student/dashboard/CourseCard";
 
 export default function StudentDashboard() {
   const [pagination, setPagination] = useState({

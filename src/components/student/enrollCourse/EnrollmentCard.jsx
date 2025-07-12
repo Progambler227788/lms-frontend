@@ -1,32 +1,16 @@
-// EnrollmentCard.js
 import React from 'react';
-// import { formatDuration } from '../../utils/formatUtils';
 import { getCourseImage } from '../../../utils/courseImages';
+import { formatDuration, getRandomColorClass } from '../../../utils/formatUtils';
 
-const formatDuration = (minutes) => {
-  if (isNaN(minutes) || minutes < 0) return '0m'; // Handle invalid inputs
-  
-  if (minutes < 60) {
-    return `${minutes}m`; // Show just minutes if under 1 hour
-  }
-  
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-  
-  // Only show remaining minutes if they exist
-  return remainingMinutes > 0 
-    ? `${hours}h ${remainingMinutes}m` 
-    : `${hours}h`;
-};
 
-export default function EnrollmentCard({ course, onEnroll }) {
+export default function EnrollmentCard({ course, onEnroll, isEnrolling }) {
   const totalLessons = course.sections?.reduce(
     (total, section) => total + (section.lessons?.length || 0), 
     0
   ) || 0;
 
   return (
-    <div className="sticky top-4 border rounded-xl shadow-sm overflow-hidden">
+    <div className="sticky top-4 border rounded-xl shadow-sm overflow-hidden bg-white">
       {/* Course Image */}
       <div className="relative aspect-video bg-gray-200">
         <img
@@ -51,7 +35,7 @@ export default function EnrollmentCard({ course, onEnroll }) {
       {/* Stats */}
       <div className="p-4 border-b grid grid-cols-3 gap-2 text-center text-sm">
         <div>
-          <div className="font-medium">{course.rating.toFixed(1)}</div>
+          <div className="font-medium">{course.rating?.toFixed(1) || '0.0'}</div>
           <div className="text-gray-500">Rating</div>
         </div>
         <div>
@@ -68,10 +52,39 @@ export default function EnrollmentCard({ course, onEnroll }) {
       <div className="p-4">
         <button
           onClick={() => onEnroll(course.id)}
-          className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors"
+          disabled={isEnrolling}
+          className={`w-full py-3 text-white font-medium rounded-lg transition-colors flex items-center justify-center ${
+            isEnrolling
+              ? 'bg-indigo-400 cursor-not-allowed'
+              : 'bg-indigo-600 hover:bg-indigo-700'
+          }`}
         >
-          Enroll Now
+          {isEnrolling ? (
+            <>
+              <svg 
+                className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24"
+              >
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Enrolling...
+            </>
+          ) : (
+            'Enroll Now'
+          )}
         </button>
+      </div>
+
+      {/* Additional Info */}
+      <div className="px-4 pb-4 text-xs text-gray-500 text-center">
+        {course.free ? (
+          <p>Start learning immediately after enrollment</p>
+        ) : (
+          <p>30-day money-back guarantee</p>
+        )}
       </div>
     </div>
   );

@@ -11,3 +11,17 @@ export const fetchUserEnrollments = async () => {
     throw error;
   }
 };
+
+
+
+export const enrollStudentInCourse = async (courseId) => {
+  try {
+    const response = await api.post(`/api/student/courses/enroll/${courseId}`, null, {
+      withCredentials: true, // for cookie-based auth
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error making enrollment:', error);
+    throw error;
+  }
+};

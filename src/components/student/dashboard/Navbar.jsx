@@ -8,8 +8,8 @@ export default function Navbar({ onLogout }) {
   const navItems = [
     { name: 'Dashboard', path: '/student-dashboard' },
     { name: 'Enrollments', path: '/enrollments' },
-    { name: 'Assignments', path: '/student-dashboard/assignments' },
-    { name: 'Profile', path: '/student-dashboard/profile' },
+    // { name: 'Assignments', path: '/student-dashboard/assignments' },
+    // { name: 'Profile', path: '/student-dashboard/profile' },
   ];
 
   return (

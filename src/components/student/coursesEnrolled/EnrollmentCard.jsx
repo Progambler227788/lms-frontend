@@ -2,10 +2,16 @@ import React from 'react';
 import { Progress } from "../../ui/Progress";
 import { Badge } from "../../ui/Badge";
 import { format } from "date-fns";
+import { useNavigate } from 'react-router-dom'; 
 
 export default function EnrollmentCard({ course, progress, enrolledAt, totalLessons, completedLessons }) {
   const isCompleted = progress >= 100;
   const progressPercentage = Math.round(progress);
+   const navigate = useNavigate(); 
+
+  const handleContinueClick = () => {
+    navigate(`/lesson/${course.id}`); // ✅ navigate to lesson page
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
@@ -62,7 +68,10 @@ export default function EnrollmentCard({ course, progress, enrolledAt, totalLess
 
           {/* Action Button */}
           {!isCompleted && (
-            <button className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors">
+             <button
+              onClick={handleContinueClick} // ✅ handle click
+              className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors"
+            >
               Continue Learning
             </button>
           )}

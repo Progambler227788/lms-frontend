@@ -9,6 +9,7 @@ import Home from './pages/landingPage/Home';
 import { AuthProvider } from './context/AuthContext';
 import CoursesEnrolled from './pages/student/CoursesEnrolled';
 import CourseEnrollmentPage from './pages/student/CourseEnrollmentPage';
+import CourseLearnPage from './pages/student/CourseLearnPage';
 
 export default function App() {
   return (
@@ -24,6 +25,15 @@ export default function App() {
             element={
               <ProtectedRoute allowedRoles={['STUDENT']}>
                 <CourseEnrollmentPage />
+              </ProtectedRoute>
+            }
+          />
+
+           <Route
+            path="/lesson/:courseId"
+            element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <CourseLearnPage/>
               </ProtectedRoute>
             }
           />

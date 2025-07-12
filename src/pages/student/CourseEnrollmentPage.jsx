@@ -1,20 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCourseById } from '../../services/courseService';
-import Navbar from '../../components/student/Navbar';
+import { enrollStudentInCourse  } from '../../services/enrollmentService';
+import Navbar from '../../components/student/dashboard/Navbar';
 import CourseHeader from '../../components/student/enrollCourse/CourseHeader';
 import CourseDescription from '../../components/student/enrollCourse/CourseDescription';
 import CourseCurriculum from '../../components/student/enrollCourse/CourseCurriculum';
 import EnrollmentCard from '../../components/student/enrollCourse/EnrollmentCard';
-import { useAuth } from '../../context/AuthContext';
+// import { useAuth } from '../../context/AuthContext';
+
 
 export default function CourseEnrollmentPage() {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+  const [isEnrolling, setIsEnrolling] = useState(false)
+
+  // Auto-hide alert after 5 seconds
+  useEffect(() => {
+    if (alert.show) {
+      const timer = setTimeout(() => {
+        setAlert({ show: false, message: '', type: '' });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert.show]);
 
   useEffect(() => {
     const loadCourse = async () => {
@@ -32,10 +46,8 @@ export default function CourseEnrollmentPage() {
       } catch (err) {
         console.error('Error loading course:', err);
         
-        // Handle different error types
         let errorMessage = 'Failed to load course details';
         if (err.response) {
-          // Server responded with error status
           if (err.response.status === 404) {
             errorMessage = 'Course not found';
           } else if (err.response.status === 401) {
@@ -57,20 +69,34 @@ export default function CourseEnrollmentPage() {
   }, [courseId]);
 
   const handleEnroll = async (courseId) => {
+    setIsEnrolling(true)
     try {
-      // Replace with your actual enrollment API call
-      alert(`Enrolled in course ${courseId}`);
+      await enrollStudentInCourse(courseId);
+      setAlert({
+        show: true,
+        message: `Successfully enrolled in course ${course.title}`,
+        type: 'success'
+      });
       // After successful enrollment, you might want to navigate somewhere
-      // navigate('/enrollments');
+      navigate('/enrollments');
     } catch (err) {
       console.error('Enrollment failed:', err);
       
       let errorMessage = 'Enrollment failed. Please try again.';
       if (err.response?.data?.message) {
         errorMessage = err.response.data.message;
+      } else if (err.message) {
+        errorMessage = err.message;
       }
       
-      alert(errorMessage);
+      setAlert({
+        show: true,
+        message: errorMessage,
+        type: 'error'
+      });
+    }
+    finally {
+       setIsEnrolling(false);
     }
   };
 
@@ -121,6 +147,29 @@ export default function CourseEnrollmentPage() {
   return (
     <>
       <Navbar />
+      {/* Alert Notification */}
+      {alert.show && (
+        <div className={`fixed top-4 right-4 z-50 transition-all duration-300 ease-in-out ${
+          alert.show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-100%]'
+        }`}>
+          <div className={`px-6 py-4 rounded shadow-lg ${
+            alert.type === 'success' 
+              ? 'bg-green-100 border border-green-400 text-green-700' 
+              : 'bg-red-100 border border-red-400 text-red-700'
+          }`}>
+            <div className="flex justify-between items-center">
+              <span>{alert.message}</span>
+              <button 
+                onClick={() => setAlert({ show: false, message: '', type: '' })}
+                className="ml-4 text-lg font-semibold"
+              >
+                &times;
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column - Course Content */}
@@ -142,6 +191,7 @@ export default function CourseEnrollmentPage() {
             <EnrollmentCard 
               course={course} 
               onEnroll={handleEnroll}
+              isEnrolling={isEnrolling} // Pass loading state to EnrollmentCard
             />
           </div>
         </div>

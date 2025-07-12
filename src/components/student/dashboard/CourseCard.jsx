@@ -1,27 +1,9 @@
 import React from 'react';
-import { getCourseImage } from '../../utils/courseImages';
+import { getCourseImage } from '../../../utils/courseImages';
+import { formatCategory, formatDuration, getRandomColorClass } from "../../../utils/formatUtils";
+import { useNavigate } from "react-router-dom";
 
-// Capitalize and format category string like "cyber_security" → "Cyber Security"
-const formatCategory = (text) => {
-  return text
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
 
-// Generate random tailwind background & text color classes
-const getRandomColorClass = () => {
-  const colors = [
-    ['bg-red-100', 'text-red-600'],
-    ['bg-green-100', 'text-green-600'],
-    ['bg-yellow-100', 'text-yellow-600'],
-    ['bg-blue-100', 'text-blue-600'],
-    ['bg-purple-100', 'text-purple-600'],
-    ['bg-pink-100', 'text-pink-600'],
-    ['bg-indigo-100', 'text-indigo-600'],
-  ];
-  return colors[Math.floor(Math.random() * colors.length)];
-};
 
 // Extract first paragraph from structured description
 const getFirstDescriptionText = (structuredDescription) => {
@@ -38,13 +20,6 @@ const getTotalLessons = (sections) => {
   return sections?.reduce((total, section) => total + (section.lessons?.length || 0), 0) || 0;
 };
 
-// Format duration from minutes to hours
-const formatDuration = (minutes) => {
-  if (minutes < 60) return `${minutes} min`;
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
-};
 
 export default function CourseCard({ course, onEnroll }) {
   const {
@@ -57,6 +32,7 @@ export default function CourseCard({ course, onEnroll }) {
     imageUrl,
     price,
     free,
+    enrolled,
     rating,
     ratingCount,
     durationMinutes,
@@ -67,6 +43,11 @@ export default function CourseCard({ course, onEnroll }) {
   const [bgColor, textColor] = getRandomColorClass();
   const totalLessons = getTotalLessons(sections);
   const firstDescription = getFirstDescriptionText(description);
+  const navigate = useNavigate();
+
+  const handleContinueClick = () => {
+    navigate(`/lesson/${course.id}`); // ✅ navigate to lesson page
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col h-full w-full">
@@ -87,11 +68,11 @@ export default function CourseCard({ course, onEnroll }) {
       {/* Course Content */}
       <div className="p-5 flex flex-col flex-grow">
         {/* Category Badge - Now with width based on content */}
-       <div
-  className={`inline-block max-w-fit mb-3 px-3 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor} whitespace-nowrap`}
->
-  {formatCategory(category)}
-</div>
+        <div
+          className={`inline-block max-w-fit mb-3 px-3 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor} whitespace-nowrap`}
+        >
+          {formatCategory(category)}
+        </div>
 
 
         {/* Title */}
@@ -119,7 +100,7 @@ export default function CourseCard({ course, onEnroll }) {
             {totalLessons} {totalLessons === 1 ? 'Lesson' : 'Lessons'}
           </div>
           <div className="flex items-center">
-            <img 
+            <img
               src={instructorImage || `https://ui-avatars.com/api/?name=${instructorName.replace(' ', '+')}&background=random`}
               alt={instructorName}
               className="w-4 h-4 rounded-full mr-1.5 object-cover"
@@ -140,12 +121,14 @@ export default function CourseCard({ course, onEnroll }) {
             {free ? 'Free' : `PKR ${price}`}
           </span>
           <button
-            onClick={() => onEnroll(id)}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+            onClick={enrolled ? () => handleContinueClick() : () => onEnroll(id)}
+            className={`px-4 py-2 text-white text-sm font-medium rounded-lg transition-colors 
+      ${enrolled ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}
           >
-            Enroll Now
+            {enrolled ? 'Continue Learning' : 'Enroll'}
           </button>
         </div>
+
       </div>
     </div>
   );
