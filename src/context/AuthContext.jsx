@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api from "../utils/api";
 
+
+// global state
 const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
