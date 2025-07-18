@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/student/dashboard/Navbar';
+import LoadingSpinner from '../../components/ui/loading/LoadingSpinner';
 import CourseHeader from '../../components/student/enrollCourse/CourseHeader';
 import CourseDescription from '../../components/student/enrollCourse/CourseDescription';
 import CourseCurriculum from '../../components/student/lesson/CourseCurriculum';
@@ -16,15 +17,18 @@ export default function CourseLearnPage() {
     const handleLessonComplete = () => {
         const { sections } = course;
 
-        for (let i = 0; i < sections.length; i++) {
-            const lessons = sections[i].lessons;
+        for (let i = 0; i < sections.length; i++) { // iterate through sections
+            const lessons = sections[i].lessons; // get lessons in current section
+            if (!lessons || lessons.length === 0) continue; // skip if no lessons
+            // Iterate through lessons in current section
             for (let j = 0; j < lessons.length; j++) {
-                const lesson = lessons[j];
+                const lesson = lessons[j]; 
 
                 if (lesson.title === currentLesson.title) {
                     // Find next lesson in same section
                     if (j + 1 < lessons.length) {
                         return setCurrentLesson({
+                            // spread operator to copy lessons properites
                             ...lessons[j + 1],
                             sectionTitle: sections[i].title,
                         });
@@ -60,7 +64,8 @@ export default function CourseLearnPage() {
                 }
             } catch (err) {
                 console.error('Error loading course:', err);
-            } finally {
+            } 
+            finally {
                 setLoading(false);
             }
         };
@@ -73,7 +78,7 @@ export default function CourseLearnPage() {
     };
 
     if (loading) {
-        return <div className="text-center py-20">Loading...</div>;
+        return <LoadingSpinner />;
     }
 
     if (!course || !currentLesson) {

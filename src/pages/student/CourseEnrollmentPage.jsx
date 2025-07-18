@@ -7,6 +7,7 @@ import CourseHeader from '../../components/student/enrollCourse/CourseHeader';
 import CourseDescription from '../../components/student/enrollCourse/CourseDescription';
 import CourseCurriculum from '../../components/student/enrollCourse/CourseCurriculum';
 import EnrollmentCard from '../../components/student/enrollCourse/EnrollmentCard';
+import LoadingSpinner from '../../components/ui/loading/LoadingSpinner';
 // import { useAuth } from '../../context/AuthContext';
 
 
@@ -102,9 +103,7 @@ export default function CourseEnrollmentPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-      </div>
+      <LoadingSpinner />
     );
   }
 

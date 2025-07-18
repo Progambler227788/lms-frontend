@@ -8,6 +8,8 @@ export const login = async (credentials) => {
 };
 
 export const register = async (userData) => {
+  // not passing withCredentials here as registration does not require cookies
+  // and we don't want to send cookies unnecessarily
   const response = await api.post('/api/auth/register', userData);
   return response.data;
 };

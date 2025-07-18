@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/student/dashboard/Navbar';
 import SearchBar from '../../components/student/coursesEnrolled/SearchBar';
 import EnrollmentList from '../../components/student/coursesEnrolled/EnrollmentList';
-import { fetchUserEnrollments } from '../../services/enrollmentService'; // <-- import service
+import { fetchUserEnrollments } from '../../services/enrollmentService'; 
+import CourseLoadingSpinner from '../../components/ui/loading/CourseLoadingSpinner';
 
 export default function CoursesEnrolled() {
   const [enrollments, setEnrollments] = useState([]);
@@ -39,7 +40,7 @@ export default function CoursesEnrolled() {
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
         {loading ? (
-          <p className="text-gray-500">Loading your courses...</p>
+          <CourseLoadingSpinner/>
         ) : (
           <EnrollmentList courses={filteredCourses} />
 
