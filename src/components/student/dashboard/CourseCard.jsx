@@ -5,27 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 
 
-// Extract first paragraph from structured description
-const getFirstDescriptionText = (structuredDescription) => {
-  if (!structuredDescription?.sections?.length) return '';
-  const firstSection = structuredDescription.sections[0];
-  if (firstSection.bulletPoints?.length) {
-    return firstSection.bulletPoints[0];
-  }
-  return firstSection.heading || '';
-};
-
-// Calculate total lessons from sections
-const getTotalLessons = (sections) => {
-  return sections?.reduce((total, section) => total + (section.lessons?.length || 0), 0) || 0;
-};
-
 
 export default function CourseCard({ course, onEnroll }) {
   const {
     id,
     title,
-    description,
     category,
     instructorName,
     instructorImage,
@@ -36,17 +20,14 @@ export default function CourseCard({ course, onEnroll }) {
     rating,
     ratingCount,
     durationMinutes,
-    sections = [],
-    createdAt
+    totalLessons
   } = course;
 
   const [bgColor, textColor] = getRandomColorClass();
-  const totalLessons = getTotalLessons(sections);
-  const firstDescription = getFirstDescriptionText(description);
   const navigate = useNavigate();
 
   const handleContinueClick = () => {
-    navigate(`/lesson/${course.id}`); // ✅ navigate to lesson page
+    navigate(`/lesson/${course.id}`); // navigate to lesson page
   };
 
   return (
@@ -67,7 +48,7 @@ export default function CourseCard({ course, onEnroll }) {
 
       {/* Course Content */}
       <div className="p-5 flex flex-col flex-grow">
-        {/* Category Badge - Now with width based on content */}
+        {/* Category Badge - with width based on content */}
         <div
           className={`inline-block max-w-fit mb-3 px-3 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor} whitespace-nowrap`}
         >
@@ -78,12 +59,6 @@ export default function CourseCard({ course, onEnroll }) {
         {/* Title */}
         <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{title}</h3>
 
-        {/* Description */}
-        {firstDescription && (
-          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-            {firstDescription}
-          </p>
-        )}
 
         {/* Meta Information */}
         <div className="grid grid-cols-2 gap-2 text-xs text-gray-500 mb-4">

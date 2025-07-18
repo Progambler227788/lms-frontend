@@ -1,5 +1,3 @@
-import React from 'react';
-
 const faqs = [
   {
     question: 'How do I enroll in a course?',

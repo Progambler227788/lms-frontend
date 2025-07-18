@@ -1,4 +1,3 @@
-import React from 'react';
 import { Progress } from "../../ui/Progress";
 import { Badge } from "../../ui/Badge";
 import { format } from "date-fns";
@@ -69,7 +68,7 @@ export default function EnrollmentCard({ course, progress, enrolledAt, totalLess
           {/* Action Button */}
           {!isCompleted && (
              <button
-              onClick={handleContinueClick} // ✅ handle click
+              onClick={handleContinueClick} // handle continue click
               className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors"
             >
               Continue Learning

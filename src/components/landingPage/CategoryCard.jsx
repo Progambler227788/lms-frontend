@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CategoryCard = ({ category }) => {
   return (
     <div className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition">
